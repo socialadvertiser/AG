@@ -362,11 +362,37 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    document.getElementById('form-success').style.display = 'block';
-    e.target.reset();
-  }
+    const btn = e.target.querySelector('button[type="submit"]');
+    const name = e.target.querySelector('input[type="text"]').value;
+    const email = e.target.querySelector('input[type="email"]').value;
+    const message = e.target.querySelector('textarea').value;
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+        const res = await fetch('https://35.185.177.210:5000/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            document.getElementById('form-success').style.display = 'block';
+            e.target.reset();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (err) {
+        alert('Server se connect nahi ho saka. Baad mein try karein.');
+    } finally {
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+    }
+}
 </script>
 </body>
 </html>
