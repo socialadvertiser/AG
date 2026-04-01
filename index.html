@@ -364,33 +364,40 @@
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
-    const name = e.target.querySelector('input[type="text"]').value;
-    const email = e.target.querySelector('input[type="email"]').value;
-    const message = e.target.querySelector('textarea').value;
+
+    const btn  = e.target.querySelector('button[type="submit"]');
+    const name = e.target.querySelector('input[type="text"]').value.trim();
+    const email= e.target.querySelector('input[type="email"]').value.trim();
+    const msg  = e.target.querySelector('textarea').value.trim();
+
+    if (!name || !email || !msg) {
+        alert('Please fill all fields!');
+        return;
+    }
 
     btn.textContent = 'Sending...';
-    btn.disabled = true;
+    btn.disabled    = true;
 
     try {
-        const res = await fetch('https://35.185.177.210:5000/api/contact', {
-            method: 'POST',
+        const res = await fetch('http://35.185.177.210:5000/api/contact', {
+            method : 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, message })
+            body   : JSON.stringify({ name, email, message: msg })
         });
+
         const data = await res.json();
 
         if (data.success) {
             document.getElementById('form-success').style.display = 'block';
             e.target.reset();
         } else {
-            alert('Error: ' + data.message);
+            alert('Failed: ' + data.message);
         }
     } catch (err) {
-        alert('Server se connect nahi ho saka. Baad mein try karein.');
+        alert('Connection error. Please try again.');
     } finally {
         btn.textContent = 'Send Message';
-        btn.disabled = false;
+        btn.disabled    = false;
     }
 }
 </script>
