@@ -7,6 +7,64 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
+.whatsapp-float {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    width: 56px;
+    height: 56px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+    .whatsapp-float:hover {
+        transform: scale(1.1);
+        background-color: #128c7e;
+    }
+
+    .whatsapp-float svg {
+        width: 30px;
+        height: 30px;
+        fill: white;
+    }
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37,211,102,0.7)
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(37,211,102,0)
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37,211,102,0)
+    }
+}
+
+@media(max-width:600px) {
+    .whatsapp-float {
+        width: 48px;
+        height: 48px;
+        left: 16px;
+        bottom: 16px;
+    }
+
+        .whatsapp-float svg {
+            width: 26px;
+            height: 26px;
+        }
+}
+ 
+ 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --black: #0a0a0a; --white: #f5f2ec; --gold: #c9a84c;
@@ -130,6 +188,14 @@
 </style>
 </head>
 <body>
+
+ <!-- WhatsApp Floating Button — Clean icon, bottom-left -->
+<a href="https://wa.me/923XXXXXXXXX?text=Hello!" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.737 5.489 2.027 7.8L0 32l8.448-2.01A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.771-1.854l-.486-.29-5.013 1.194 1.237-4.878-.318-.5A13.27 13.27 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333z" />
+        <path d="M23.07 19.457c-.368-.184-2.178-1.073-2.515-1.196-.337-.123-.582-.184-.827.184-.245.368-.95 1.196-1.164 1.44-.214.245-.429.276-.797.092-.368-.184-1.554-.573-2.96-1.827-1.094-.977-1.832-2.183-2.047-2.551-.214-.368-.023-.567.161-.75.165-.164.368-.429.552-.643.184-.214.245-.368.368-.613.123-.245.061-.46-.031-.644-.092-.184-.827-1.993-1.133-2.729-.298-.717-.601-.62-.827-.631-.214-.01-.46-.013-.705-.013s-.644.092-.981.46c-.337.368-1.287 1.257-1.287 3.065s1.318 3.555 1.502 3.8c.184.245 2.595 3.963 6.291 5.557.879.38 1.565.607 2.1.777.882.281 1.686.241 2.32.146.708-.106 2.178-.89 2.485-1.75.306-.858.306-1.594.214-1.748-.092-.153-.337-.245-.705-.429z" />
+    </svg>
+</a>
 
 <nav>
   <div class="nav-logo">Social Advertiser</div>
