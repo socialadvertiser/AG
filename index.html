@@ -388,26 +388,27 @@
   <div class="contact-inner">
     <p class="section-label reveal">Get In Touch</p>
     <h2 class="section-title reveal">Questions?<br><em>We're here.</em></h2>
-    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
-      <div class="form-row">
+    <form class="contact-form reveal" id="contactForm">
+    <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Your Name</label>
-          <input type="text" class="form-input" placeholder="John Smith" required>
+            <label class="form-label">Your Name</label>
+            <input type="text" id="cName" class="form-input" placeholder="John Smith" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" placeholder="you@example.com" required>
+            <label class="form-label">Email Address</label>
+            <input type="email" id="cEmail" class="form-input" placeholder="you@example.com" required>
         </div>
-      </div>
-      <div class="form-group">
+    </div>
+    <div class="form-group">
         <label class="form-label">Message</label>
-        <textarea class="form-textarea" placeholder="Tell us how we can help you..."></textarea>
-      </div>
-      <div class="form-submit">
-        <button type="submit" class="btn-primary">Send Message</button>
-      </div>
-      <p id="form-success" style="display:none; color:var(--gold); font-size:13px; letter-spacing:0.05em; margin-top:8px;">✓ Message sent. We'll be in touch shortly.</p>
-    </form>
+        <textarea id="cMessage" class="form-textarea" placeholder="Tell us how we can help you..." required></textarea>
+    </div>
+    <div class="form-submit">
+        <button type="submit" class="btn-primary" id="submitBtn">Send Message</button>
+    </div>
+    <p id="form-success" style="display:none;color:var(--gold);font-size:13px;letter-spacing:0.05em;margin-top:8px;">✓ Message sent. We'll be in touch shortly.</p>
+    <p id="form-error" style="display:none;color:#e74c3c;font-size:13px;margin-top:8px;">✗ Failed to send. Please contact us on WhatsApp.</p>
+</form>
   </div>
 </div>
 
@@ -428,44 +429,38 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
-  async function handleSubmit(e) {
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
     e.preventDefault();
+    const name = document.getElementById('cName').value.trim();
+    const email = document.getElementById('cEmail').value.trim();
+    const message = document.getElementById('cMessage').value.trim();
+    const btn = document.getElementById('submitBtn');
+    const success = document.getElementById('form-success');
+    const errBox = document.getElementById('form-error');
 
-    const btn  = e.target.querySelector('button[type="submit"]');
-    const name = e.target.querySelector('input[type="text"]').value.trim();
-    const email= e.target.querySelector('input[type="email"]').value.trim();
-    const msg  = e.target.querySelector('textarea').value.trim();
-
-    if (!name || !email || !msg) {
-        alert('Please fill all fields!');
-        return;
-    }
+    if (!name || !email || !message) { alert('Please fill all fields!'); return; }
 
     btn.textContent = 'Sending...';
-    btn.disabled    = true;
+    btn.disabled = true;
+    success.style.display = 'none';
+    errBox.style.display = 'none';
 
     try {
         const res = await fetch('http://35.185.177.210:5000/api/contact', {
-            method : 'POST',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body   : JSON.stringify({ name, email, message: msg })
+            body: JSON.stringify({ name, email, message })
         });
-
         const data = await res.json();
-
-        if (data.success) {
-            document.getElementById('form-success').style.display = 'block';
-            e.target.reset();
-        } else {
-            alert('Failed: ' + data.message);
-        }
+        if (data.success) { success.style.display = 'block'; this.reset(); }
+        else { errBox.style.display = 'block'; }
     } catch (err) {
-        alert('Connection error. Please try again.');
+        errBox.style.display = 'block';
     } finally {
         btn.textContent = 'Send Message';
-        btn.disabled    = false;
+        btn.disabled = false;
     }
-}
+});
 </script>
 </body>
 </html>
