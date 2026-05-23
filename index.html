@@ -1,455 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Media Auto Advertiser</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-.whatsapp-float {
-    position: fixed;
-    left: 24px;
-    bottom: 24px;
-    width: 56px;
-    height: 56px;
-    background-color: #25d366;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-    animation: pulse 2s infinite;
-}
-
-    .whatsapp-float:hover {
-        transform: scale(1.1);
-        background-color: #128c7e;
-    }
-
-    .whatsapp-float svg {
-        width: 30px;
-        height: 30px;
-        fill: white;
-    }
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(37,211,102,0.7)
-    }
-
-    70% {
-        box-shadow: 0 0 0 15px rgba(37,211,102,0)
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(37,211,102,0)
-    }
-}
-
-@media(max-width:600px) {
-    .whatsapp-float {
-        width: 48px;
-        height: 48px;
-        left: 16px;
-        bottom: 16px;
-    }
-
-        .whatsapp-float svg {
-            width: 26px;
-            height: 26px;
-        }
-}
- 
- 
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --black: #0a0a0a; --white: #f5f2ec; --gold: #c9a84c;
-    --gold-light: #e8c97a; --gold-dim: rgba(201,168,76,0.15);
-    --gray: #2a2a2a; --gray-light: #444; --text-muted: #888;
-  }
-  html { scroll-behavior: smooth; }
-  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
-
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 28px 60px; background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent); }
-  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-  .nav-links { display: flex; gap: 40px; list-style: none; }
-  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
-  .nav-links a:hover { color: var(--white); }
-
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 40px 80px; position: relative; overflow: hidden; }
-  .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
-  .hero-line { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--gold)); margin: 0 auto 48px; animation: lineGrow 1.2s ease forwards; transform-origin: top; }
-  @keyframes lineGrow { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
-  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
-  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(64px, 10vw, 120px); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards; }
-  .hero-title em { font-style: italic; color: var(--gold-light); }
-  .hero-title-sub { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 300; font-style: italic; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; }
-  .hero-desc { font-size: 16px; line-height: 1.8; color: var(--text-muted); max-width: 520px; margin: 0 auto 56px; opacity: 0; animation: fadeUp 0.8s ease 0.9s forwards; }
-  .hero-desc strong { color: var(--white); font-weight: 400; }
-  .hero-cta-group { display: flex; gap: 16px; align-items: center; justify-content: center; opacity: 0; animation: fadeUp 0.8s ease 1.1s forwards; }
-
-  .btn-primary { background: var(--gold); color: var(--black); padding: 16px 40px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; display: inline-block; }
-  .btn-primary::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15); transform: translateX(-100%); transition: transform 0.4s ease; }
-  .btn-primary:hover::after { transform: translateX(0); }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.3); }
-  .btn-ghost { color: var(--text-muted); padding: 16px 32px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--gray-light); transition: all 0.3s; }
-  .btn-ghost:hover { color: var(--white); border-color: var(--white); }
-
-  .platforms-strip { padding: 60px 40px; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; }
-  .platforms-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; }
-  .platforms-icons { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
-  .platform-item { display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0.5; transition: opacity 0.3s, transform 0.3s; }
-  .platform-item:hover { opacity: 1; transform: translateY(-4px); }
-  .platform-icon { width: 44px; height: 44px; border: 1px solid var(--gray-light); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-  .platform-name { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
-
-  .section { padding: 120px 60px; max-width: 1200px; margin: 0 auto; }
-  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
-  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; line-height: 1.05; margin-bottom: 64px; }
-  .section-title em { font-style: italic; color: var(--gold-light); }
-
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
-  .feature-card { background: var(--black); padding: 48px 40px; transition: background 0.3s; }
-  .feature-card:hover { background: #111; }
-  .feature-number { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.2em; margin-bottom: 24px; opacity: 0.6; }
-  .feature-icon { font-size: 28px; margin-bottom: 20px; }
-  .feature-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; margin-bottom: 14px; line-height: 1.2; }
-  .feature-desc { font-size: 14px; line-height: 1.8; color: var(--text-muted); }
-
-  .how-section { padding: 120px 60px; background: #0d0d0d; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .how-inner { max-width: 1200px; margin: 0 auto; }
-  .steps-list { display: flex; flex-direction: column; margin-top: 64px; position: relative; }
-  .steps-list::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), transparent); }
-  .step-item { display: flex; gap: 48px; align-items: flex-start; padding: 40px 0 40px 80px; border-bottom: 1px solid rgba(255,255,255,0.04); position: relative; }
-  .step-dot { position: absolute; left: 17px; top: 44px; width: 15px; height: 15px; background: var(--gold); border: 3px solid var(--black); border-radius: 50%; }
-  .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.2em; min-width: 40px; padding-top: 4px; }
-  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; margin-bottom: 10px; }
-  .step-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; max-width: 600px; }
-
-  .pricing-section { padding: 120px 60px; max-width: 1200px; margin: 0 auto; text-align: center; }
-  .pricing-card { max-width: 480px; margin: 64px auto 0; border: 1px solid var(--gold); padding: 64px 56px; position: relative; background: linear-gradient(135deg, #0f0f0f, #0a0a0a); }
-  .pricing-card::before { content: ''; position: absolute; inset: -1px; background: linear-gradient(135deg, var(--gold), transparent 60%); z-index: -1; opacity: 0.3; }
-  .pricing-badge { display: inline-block; background: var(--gold); color: var(--black); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 6px 16px; margin-bottom: 40px; }
-  .pricing-price { font-family: 'Cormorant Garamond', serif; font-size: 88px; font-weight: 300; line-height: 1; margin-bottom: 4px; }
-  .pricing-price sup { font-size: 36px; vertical-align: super; color: var(--gold); }
-  .pricing-period { font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 48px; }
-  .pricing-divider { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 40px; }
-  .pricing-features { list-style: none; text-align: left; margin-bottom: 48px; display: flex; flex-direction: column; gap: 16px; }
-  .pricing-features li { display: flex; align-items: center; gap: 14px; font-size: 14px; color: var(--text-muted); line-height: 1.5; }
-  .pricing-features li::before { content: '—'; color: var(--gold); font-family: 'DM Mono', monospace; flex-shrink: 0; }
-  .pricing-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; margin-top: 24px; font-style: italic; }
-
-  /* ── VIDEO SECTION ── */
-  .video-section { padding: 120px 60px; background: #0d0d0d; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .video-inner { max-width: 900px; margin: 0 auto; text-align: center; }
-  .video-wrapper { position: relative; margin-top: 56px; border: 1px solid rgba(201,168,76,0.3); background: #0a0a0a; overflow: hidden; }
-  .video-wrapper::before { content: ''; display: block; padding-top: 56.25%; }
-  .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; background: linear-gradient(135deg, #0f0f0f, #0a0a0a); }
-  .video-play-btn { width: 72px; height: 72px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-  .video-play-btn::after { content: ''; width: 0; height: 0; border-style: solid; border-width: 12px 0 12px 22px; border-color: transparent transparent transparent var(--gold); margin-left: 5px; }
-  .video-coming-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--white); opacity: 0.7; }
-  .video-coming-soon { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); }
-  .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-  .video-caption { margin-top: 24px; font-size: 13px; color: var(--text-muted); font-style: italic; letter-spacing: 0.05em; }
-
-  .contact-section { padding: 120px 60px; background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.04); }
-  .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
-  .contact-form { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; text-align: left; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 8px; }
-  .form-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
-  .form-input, .form-textarea { background: transparent; border: 1px solid var(--gray); color: var(--white); padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.3s; width: 100%; }
-  .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
-  .form-textarea { resize: vertical; min-height: 120px; }
-  .form-submit { align-self: flex-start; margin-top: 8px; }
-
-  footer { padding: 48px 60px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-  .footer-copy { font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 900px) {
-    nav { padding: 24px 30px; } .nav-links { display: none; }
-    .section, .pricing-section { padding: 80px 30px; }
-    .how-section, .contact-section, .video-section { padding: 80px 30px; }
-    .features-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
-    .steps-list::before { display: none; } .step-item { padding-left: 0; } .step-dot { display: none; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Auto Advertiser</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        .whatsapp-float{position:fixed;left:24px;bottom:24px;width:56px;height:56px;background-color:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:9999;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);transition:all 0.3s ease;animation:pulse 2s infinite;}
+        .whatsapp-float:hover{transform:scale(1.1);background-color:#128c7e;}
+        .whatsapp-float svg{width:30px;height:30px;fill:white;}
+        @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.7)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+        @media(max-width:600px){.whatsapp-float{width:48px;height:48px;left:16px;bottom:16px;}.whatsapp-float svg{width:26px;height:26px;}}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        :root{--black:#0a0a0a;--white:#f5f2ec;--gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.15);--gray:#2a2a2a;--gray-light:#444;--text-muted:#888;}
+        html{scroll-behavior:smooth;}
+        body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+        body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4;}
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 60px;background:linear-gradient(to bottom,rgba(10,10,10,0.95),transparent);}
+        .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
+        .nav-links{display:flex;gap:40px;list-style:none;}
+        .nav-links a{color:var(--text-muted);text-decoration:none;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.3s;}
+        .nav-links a:hover{color:var(--white);}
+        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+        .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none;}
+        .hero-line{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 48px;animation:lineGrow 1.2s ease forwards;transform-origin:top;}
+        @keyframes lineGrow{from{transform:scaleY(0);opacity:0;}to{transform:scaleY(1);opacity:1;}}
+        .hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards;}
+        .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(64px,10vw,120px);font-weight:300;line-height:0.95;letter-spacing:-0.02em;margin-bottom:8px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
+        .hero-title em{font-style:italic;color:var(--gold-light);}
+        .hero-title-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,56px);font-weight:300;font-style:italic;color:var(--text-muted);letter-spacing:0.05em;margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
+        .hero-desc{font-size:16px;line-height:1.8;color:var(--text-muted);max-width:520px;margin:0 auto 56px;opacity:0;animation:fadeUp 0.8s ease 0.9s forwards;}
+        .hero-desc strong{color:var(--white);font-weight:400;}
+        .hero-cta-group{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 1.1s forwards;}
+        .btn-primary{background:var(--gold);color:var(--black);padding:16px 40px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;display:inline-block;}
+        .btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.15);transform:translateX(-100%);transition:transform 0.4s ease;}
+        .btn-primary:hover::after{transform:translateX(0);}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,0.3);}
+        .btn-primary:disabled{opacity:0.7;cursor:not-allowed;transform:none;}
+        .btn-ghost{color:var(--text-muted);padding:16px 32px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gray-light);transition:all 0.3s;background:transparent;cursor:pointer;}
+        .btn-ghost:hover{color:var(--white);border-color:var(--white);}
+        .btn-trial{color:var(--gold);padding:16px 32px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);transition:all 0.3s;background:var(--gold-dim);cursor:pointer;}
+        .btn-trial:hover{color:var(--black);background:var(--gold);}
+        .platforms-strip{padding:60px 40px;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;}
+        .platforms-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:32px;}
+        .platforms-icons{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;}
+        .platform-item{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0.5;transition:opacity 0.3s,transform 0.3s;}
+        .platform-item:hover{opacity:1;transform:translateY(-4px);}
+        .platform-icon{width:44px;height:44px;border:1px solid var(--gray-light);display:flex;align-items:center;justify-content:center;font-size:20px;}
+        .platform-name{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);}
+        .section{padding:120px 60px;max-width:1200px;margin:0 auto;}
+        .section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+        .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,72px);font-weight:300;line-height:1.05;margin-bottom:64px;}
+        .section-title em{font-style:italic;color:var(--gold-light);}
+        .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.05);}
+        .feature-card{background:var(--black);padding:48px 40px;transition:background 0.3s;}
+        .feature-card:hover{background:#111;}
+        .feature-card.ai-card{background:#0a0a0a;border-top:2px solid var(--gold);}
+        .feature-card.ai-card:hover{background:#0f0f0a;}
+        .feature-number{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.2em;margin-bottom:24px;opacity:0.6;}
+        .feature-icon{font-size:28px;margin-bottom:20px;}
+        .feature-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;margin-bottom:14px;line-height:1.2;}
+        .feature-desc{font-size:14px;line-height:1.8;color:var(--text-muted);}
+        .how-section{padding:120px 60px;background:#0d0d0d;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);}
+        .how-inner{max-width:1200px;margin:0 auto;}
+        .steps-list{display:flex;flex-direction:column;margin-top:64px;position:relative;}
+        .steps-list::before{content:'';position:absolute;left:24px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),transparent);}
+        .step-item{display:flex;gap:48px;align-items:flex-start;padding:40px 0 40px 80px;border-bottom:1px solid rgba(255,255,255,0.04);position:relative;}
+        .step-dot{position:absolute;left:17px;top:44px;width:15px;height:15px;background:var(--gold);border:3px solid var(--black);border-radius:50%;}
+        .step-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.2em;min-width:40px;padding-top:4px;}
+        .step-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;margin-bottom:10px;}
+        .step-desc{font-size:14px;color:var(--text-muted);line-height:1.8;max-width:600px;}
+        .pricing-section{padding:120px 60px;max-width:1200px;margin:0 auto;text-align:center;}
+        .pricing-card{max-width:480px;margin:64px auto 0;border:1px solid var(--gold);padding:64px 56px;position:relative;background:linear-gradient(135deg,#0f0f0f,#0a0a0a);}
+        .pricing-card::before{content:'';position:absolute;inset:-1px;background:linear-gradient(135deg,var(--gold),transparent 60%);z-index:-1;opacity:0.3;}
+        .pricing-badge{display:inline-block;background:var(--gold);color:var(--black);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:6px 16px;margin-bottom:40px;}
+        .pricing-price{font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:300;line-height:1;margin-bottom:4px;}
+        .pricing-price sup{font-size:36px;vertical-align:super;color:var(--gold);}
+        .pricing-period{font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:48px;}
+        .pricing-divider{width:40px;height:1px;background:var(--gold);margin:0 auto 40px;}
+        .pricing-features{list-style:none;text-align:left;margin-bottom:48px;display:flex;flex-direction:column;gap:16px;}
+        .pricing-features li{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--text-muted);line-height:1.5;}
+        .pricing-features li::before{content:'—';color:var(--gold);font-family:'DM Mono',monospace;flex-shrink:0;}
+        .pricing-note{font-size:12px;color:var(--text-muted);letter-spacing:0.05em;margin-top:24px;font-style:italic;}
+        .video-section{padding:120px 60px;background:#0d0d0d;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);}
+        .video-inner{max-width:900px;margin:0 auto;text-align:center;}
+        .video-wrapper{position:relative;margin-top:56px;border:1px solid rgba(201,168,76,0.3);background:var(--black);overflow:hidden;}
+        .video-wrapper::before{content:'';display:block;padding-top:56.25%;}
+        .video-wrapper iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+        .video-caption{margin-top:24px;font-size:13px;color:var(--text-muted);font-style:italic;letter-spacing:0.05em;}
+        .contact-section{padding:120px 60px;background:var(--black);border-top:1px solid rgba(255,255,255,0.04);}
+        .contact-inner{max-width:700px;margin:0 auto;text-align:center;}
+        .contact-form{margin-top:56px;display:flex;flex-direction:column;gap:16px;text-align:left;}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+        .form-group{display:flex;flex-direction:column;gap:8px;}
+        .form-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);}
+        .form-input,.form-textarea{background:transparent;border:1px solid var(--gray);color:var(--white);padding:14px 18px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.3s;width:100%;}
+        .form-input:focus,.form-textarea:focus{border-color:var(--gold);}
+        .form-textarea{resize:vertical;min-height:120px;}
+        .form-submit{align-self:flex-start;margin-top:8px;}
+        footer{padding:48px 60px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+        .footer-logo{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
+        .footer-copy{font-size:12px;color:var(--text-muted);letter-spacing:0.05em;}
+        .footer-links{display:flex;gap:24px;}
+        .footer-links a{font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:0.05em;transition:color 0.3s;cursor:pointer;}
+        .footer-links a:hover{color:var(--gold);}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+        .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.8s ease,transform 0.8s ease;}
+        .reveal.visible{opacity:1;transform:translateY(0);}
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;align-items:center;justify-content:center;}
+        .modal-overlay.active{display:flex;}
+        .modal-box{background:#111;border:1px solid var(--gold);padding:40px;border-radius:16px;max-width:440px;width:90%;text-align:center;position:relative;}
+        .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:#888;font-size:20px;cursor:pointer;}
+        .modal-input{width:100%;padding:13px 16px;margin-bottom:12px;background:#1a1a1a;border:1px solid #333;color:white;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;font-family:'DM Sans',sans-serif;}
+        .modal-input:focus{border-color:var(--gold);}
+        @media(max-width:900px){nav{padding:24px 30px;}.nav-links{display:none;}.section,.pricing-section{padding:80px 30px;}.how-section,.contact-section,.video-section{padding:80px 30px;}.features-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}footer{flex-direction:column;text-align:center;}.footer-links{justify-content:center;}.steps-list::before{display:none;}.step-item{padding-left:0;}.step-dot{display:none;}}
+    </style>
 </head>
 <body>
 
- <!-- WhatsApp Floating Button — Clean icon, bottom-left -->
-<a href="https://wa.me/923136015945?text=Hello!" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-        <path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.737 5.489 2.027 7.8L0 32l8.448-2.01A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.771-1.854l-.486-.29-5.013 1.194 1.237-4.878-.318-.5A13.27 13.27 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333z" />
-        <path d="M23.07 19.457c-.368-.184-2.178-1.073-2.515-1.196-.337-.123-.582-.184-.827.184-.245.368-.95 1.196-1.164 1.44-.214.245-.429.276-.797.092-.368-.184-1.554-.573-2.96-1.827-1.094-.977-1.832-2.183-2.047-2.551-.214-.368-.023-.567.161-.75.165-.164.368-.429.552-.643.184-.214.245-.368.368-.613.123-.245.061-.46-.031-.644-.092-.184-.827-1.993-1.133-2.729-.298-.717-.601-.62-.827-.631-.214-.01-.46-.013-.705-.013s-.644.092-.981.46c-.337.368-1.287 1.257-1.287 3.065s1.318 3.555 1.502 3.8c.184.245 2.595 3.963 6.291 5.557.879.38 1.565.607 2.1.777.882.281 1.686.241 2.32.146.708-.106 2.178-.89 2.485-1.75.306-.858.306-1.594.214-1.748-.092-.153-.337-.245-.705-.429z" />
-    </svg>
-</a>
+    <a href="https://wa.me/923136015945?text=Hello!" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.737 5.489 2.027 7.8L0 32l8.448-2.01A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.771-1.854l-.486-.29-5.013 1.194 1.237-4.878-.318-.5A13.27 13.27 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333z"/>
+            <path d="M23.07 19.457c-.368-.184-2.178-1.073-2.515-1.196-.337-.123-.582-.184-.827.184-.245.368-.95 1.196-1.164 1.44-.214.245-.429.276-.797.092-.368-.184-1.554-.573-2.96-1.827-1.094-.977-1.832-2.183-2.047-2.551-.214-.368-.023-.567.161-.75.165-.164.368-.429.552-.643.184-.214.245-.368.368-.613.123-.245.061-.46-.031-.644-.092-.184-.827-1.993-1.133-2.729-.298-.717-.601-.62-.827-.631-.214-.01-.46-.013-.705-.013s-.644.092-.981.46c-.337.368-1.287 1.257-1.287 3.065s1.318 3.555 1.502 3.8c.184.245 2.595 3.963 6.291 5.557.879.38 1.565.607 2.1.777.882.281 1.686.241 2.32.146.708-.106 2.178-.89 2.485-1.75.306-.858.306-1.594.214-1.748-.092-.153-.337-.245-.705-.429z"/>
+        </svg>
+    </a>
 
-<nav>
-  <div class="nav-logo">Social Advertiser</div>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#how">How It Works</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#watch">Watch Demo vidio</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <div id="main-content">
 
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-line"></div>
-  <p class="hero-eyebrow">Introducing Social Advertiser</p>
-  <h1 class="hero-title">Create Once.<br><em>Run Auto Pilot</em></h1>
-  <p class="hero-title-sub">Post on Platforms — On Your Schedule.</p>
-  <p class="hero-desc">
-    Automate your social media presence across
-    <strong>Facebook, X, Instagram, LinkedIn &amp; Pinterest</strong> —
-    all from a single, elegant desktop application.
-  </p>
-  <div class="hero-cta-group">
-    <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.0/SocialAdvertiser_Setup_v1.0.0.exe" class="btn-primary" download>🪟 Free Download for Windows</a>
-    <a href="#how" class="btn-ghost">See How It Works</a>
-  </div>
-</section>
+        <nav>
+            <div class="nav-logo">Social Advertiser</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#watch">Watch Demo</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
 
-<div class="platforms-strip">
-  <p class="platforms-label">Seamlessly connected to</p>
-  <div class="platforms-icons">
-    <div class="platform-item"><div class="platform-icon">𝒇</div><span class="platform-name">Facebook</span></div>
-    <div class="platform-item"><div class="platform-icon">𝕏</div><span class="platform-name">X / Twitter</span></div>
-    <div class="platform-item"><div class="platform-icon">◈</div><span class="platform-name">Instagram</span></div>
-    <div class="platform-item"><div class="platform-icon">in</div><span class="platform-name">LinkedIn</span></div>
-    <div class="platform-item"><div class="platform-icon">𝑷</div><span class="platform-name">Pinterest</span></div>
-  </div>
-</div>
+        <section class="hero">
+            <div class="hero-glow"></div>
+            <div class="hero-line"></div>
+            <p class="hero-eyebrow">Introducing Social Advertiser</p>
+            <h1 class="hero-title">Create Once.<br><em>Run Auto Pilot</em></h1>
+            <p class="hero-title-sub">Post on Platforms — On Your Schedule.</p>
+            <p class="hero-desc">Automate your social media presence across <strong>Facebook, X, Instagram, LinkedIn &amp; Pinterest</strong> — all from a single, elegant desktop application.</p>
+            <div class="hero-cta-group">
+                <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.0/SocialAdvertiser_Setup_v1.0.0.exe" class="btn-primary">🪟 Free Download for Windows</a>
+                <button class="btn-trial" onclick="showTrialModal()">🎯 Free 1 Day Trial</button>
+                <a href="#how" class="btn-ghost">See How It Works</a>
+            </div>
+        </section>
 
-<section class="section" id="features">
-  <p class="section-label reveal">What It Does</p>
-  <h2 class="section-title reveal">
-    Build your campaigns.<br>
-    Set your schedule.<br>
-    Let <em>Auto Pilot</em> run everything.
-  </h2>
-  <div class="features-grid">
-    <div class="feature-card reveal">
-      <p class="feature-number">01</p>
-      <div class="feature-icon">🚀</div>
-      <h3 class="feature-title">Multi Auto Pilot</h3>
-      <p class="feature-desc">Run all your saved campaigns automatically. The system posts one by one based on your selected time — watch every post happen live on your screen.</p>
-    </div>
-    <div class="feature-card reveal">
-      <p class="feature-number">02</p>
-      <div class="feature-icon">🎯</div>
-      <h3 class="feature-title">Start Solo Pilot</h3>
-      <p class="feature-desc">Select a saved campaign, press Start Solo Pilot, and watch it run automatically at your chosen time — with live posting visible on your screen.</p>
-    </div>
-    <div class="feature-card reveal">
-      <p class="feature-number">03</p>
-      <div class="feature-icon">🖼️</div>
-      <h3 class="feature-title">Media + Caption</h3>
-      <p class="feature-desc">Attach images or videos and write your caption or link — once.<br> Social Advertiser handles the formatting and delivery to every platform automatically.</p>
-    </div>
-    <div class="feature-card reveal">
-      <p class="feature-number">04</p>
-      <div class="feature-icon">🔐</div>
-      <h3 class="feature-title">Secure &amp; Licensed</h3>
-      <p class="feature-desc">Your accounts stay on your own computer. License verification ensures only authorized users can run the software — your data never leaves your machine.</p>
-    </div>
-    <div class="feature-card reveal">
-      <p class="feature-number">05</p>
-      <div class="feature-icon">📊</div>
-      <h3 class="feature-title">Campaign Manager</h3>
-      <p class="feature-desc">See all actions in a live log. Multi Auto Pilot displays the real-time status and countdown to the next scheduled campaign.</p>
-    </div>
-    <div class="feature-card reveal">
-      <p class="feature-number">06</p>
-      <div class="feature-icon">🔄</div>
-      <h3 class="feature-title">Always Up-to-Date</h3>
-      <p class="feature-desc">Silent background updates keep your tool in sync with every platform change. No action needed on your end — it just works.</p>
-    </div>
-  </div>
-</section>
-
-<div class="how-section" id="how">
-  <div class="how-inner">
-    <p class="section-label reveal">The Process</p>
-    <h2 class="section-title reveal">Elegantly simple.<br><em>Powerfully effective.</em></h2>
-    <div class="steps-list">
-      <div class="step-item reveal">
-        <div class="step-dot"></div>
-        <span class="step-num">01</span>
-        <div class="step-content">
-          <h3 class="step-title">Download &amp; Install</h3>
-          <p class="step-desc">Download the Social Advertiser desktop app for Windows. One-click installation — no technical knowledge required. Ready in under a minute.</p>
+        <div class="platforms-strip">
+            <p class="platforms-label">Seamlessly connected to</p>
+            <div class="platforms-icons">
+                <div class="platform-item"><div class="platform-icon">𝒇</div><span class="platform-name">Facebook</span></div>
+                <div class="platform-item"><div class="platform-icon">𝕏</div><span class="platform-name">X / Twitter</span></div>
+                <div class="platform-item"><div class="platform-icon">◈</div><span class="platform-name">Instagram</span></div>
+                <div class="platform-item"><div class="platform-icon">in</div><span class="platform-name">LinkedIn</span></div>
+                <div class="platform-item"><div class="platform-icon">𝑷</div><span class="platform-name">Pinterest</span></div>
+            </div>
         </div>
-      </div>
-      <div class="step-item reveal">
-        <div class="step-dot"></div>
-        <span class="step-num">02</span>
-        <div class="step-content">
-          <h3 class="step-title">Connect Your Accounts</h3>
-          <p class="step-desc">Log into each of your social platforms once through the built-in browser. Your sessions are saved securely on your own machine — never on our servers.</p>
+
+        <section class="section" id="features">
+            <p class="section-label reveal">What It Does</p>
+            <h2 class="section-title reveal">Build your campaigns.<br>Set your schedule.<br>Let <em>Auto Pilot</em> run everything.</h2>
+            <div class="features-grid">
+
+                <!-- 01 — AI CONTENT FACTORY — FIRST! -->
+                <div class="feature-card ai-card reveal">
+                    <p class="feature-number">01</p>
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI Content Factory</h3>
+                    <p class="feature-desc">Write a prompt describing your post — AI generates a professional video or image, attaches it to all platforms, ready to post. No design skills needed. Up to 20 creations per month for paid users.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <p class="feature-number">02</p>
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Multi Auto Pilot</h3>
+                    <p class="feature-desc">Run all your saved campaigns automatically. The system posts one by one based on your selected time — watch every post happen live on your screen.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <p class="feature-number">03</p>
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Start Solo Pilot</h3>
+                    <p class="feature-desc">Select a saved campaign, press Start Solo Pilot, and watch it run automatically at your chosen time — with live posting visible on your screen.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <p class="feature-number">04</p>
+                    <div class="feature-icon">🖼️</div>
+                    <h3 class="feature-title">Media + Caption</h3>
+                    <p class="feature-desc">Attach images or videos and write your caption or link — once. Social Advertiser handles the formatting and delivery to every platform automatically.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <p class="feature-number">05</p>
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="feature-title">Secure &amp; Licensed</h3>
+                    <p class="feature-desc">Your accounts stay on your own computer. License verification ensures only authorized users can run the software — your data never leaves your machine.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <p class="feature-number">06</p>
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Campaign Manager</h3>
+                    <p class="feature-desc">See all actions in a live log. Multi Auto Pilot displays the real-time status and countdown to the next scheduled campaign.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <p class="feature-number">07</p>
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Always Up-to-Date</h3>
+                    <p class="feature-desc">Silent background updates keep your tool in sync with every platform change. No action needed on your end — it just works.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══ AI CONTENT FACTORY DETAIL SECTION ═══ -->
+        <div style="padding:120px 60px;background:#0d0d0d;border-top:1px solid rgba(201,168,76,0.15);border-bottom:1px solid rgba(201,168,76,0.15);" id="ai-section">
+            <div style="max-width:1200px;margin:0 auto;">
+
+                <p class="section-label reveal">AI Content Factory</p>
+                <h2 class="section-title reveal">Write a prompt.<br><em>AI does the rest.</em></h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="reveal">
+
+                    <!-- Left: How it works -->
+                    <div>
+                        <p style="font-size:15px;line-height:1.9;color:var(--text-muted);margin-bottom:40px;">Simply describe what you want — AI generates a professional video or image and automatically attaches it to your campaign. You set the schedule, platforms, and name — then save. Solo Pilot or Multi Auto Pilot will post it everywhere.</p>
+
+                        <div style="display:flex;flex-direction:column;gap:28px;">
+                            <div style="display:flex;gap:20px;align-items:flex-start;">
+                                <div style="width:38px;height:38px;background:var(--gold-dim);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);flex-shrink:0;">01</div>
+                                <div>
+                                    <h4 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px;">Write Your Prompt</h4>
+                                    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">Describe exactly what you want — the content, the style, the colors, the mood. The more detail you give, the better the result.</p>
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:20px;align-items:flex-start;">
+                                <div style="width:38px;height:38px;background:var(--gold-dim);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);flex-shrink:0;">02</div>
+                                <div>
+                                    <h4 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px;">Choose Video or Image</h4>
+                                    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">Select Video mode for a short MP4 reel with text and transitions, or Image mode for a single high-quality post thumbnail.</p>
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:20px;align-items:flex-start;">
+                                <div style="width:38px;height:38px;background:var(--gold-dim);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);flex-shrink:0;">03</div>
+                                <div>
+                                    <h4 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px;">Click Generate — Wait Briefly</h4>
+                                    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">AI creates your content in the background. The video or image automatically appears in your campaign — no manual file selection needed.</p>
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:20px;align-items:flex-start;">
+                                <div style="width:38px;height:38px;background:var(--gold-dim);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);flex-shrink:0;">04</div>
+                                <div>
+                                    <h4 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:6px;">Save &amp; Launch Your Campaign</h4>
+                                    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">Add your content, caption or link, choose your schedule, name the campaign and hit Save. Run it with Solo Pilot or let Multi Auto Pilot handle everything automatically across all 5 platforms.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Prompt examples + limits -->
+                    <div style="display:flex;flex-direction:column;gap:24px;">
+
+                        <div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:28px;">
+                            <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">Example Prompts</p>
+                            <div style="display:flex;flex-direction:column;gap:12px;">
+                                <div style="font-size:13px;color:var(--text-muted);padding:12px 16px;background:#111;border-radius:6px;border-left:2px solid var(--gold);line-height:1.6;">
+                                    <strong style="color:var(--white);">Video:</strong> "Show 3 benefits of green tea with a dark luxury background, gold accents, and elegant text"
+                                </div>
+                                <div style="font-size:13px;color:var(--text-muted);padding:12px 16px;background:#111;border-radius:6px;border-left:2px solid var(--gold);line-height:1.6;">
+                                    <strong style="color:var(--white);">Image:</strong> "Ramadan Mubarak post, Islamic geometric pattern, green and gold colors, mosque silhouette at night"
+                                </div>
+                                <div style="font-size:13px;color:var(--text-muted);padding:12px 16px;background:#111;border-radius:6px;border-left:2px solid var(--gold);line-height:1.6;">
+                                    <strong style="color:var(--white);">Image:</strong> "Shoe sale 50% off, red and white bold colors, sports shoes flying, energetic and exciting style"
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:#0a0a0a;border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:28px;">
+                            <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">Monthly Limits</p>
+                            <div style="display:flex;flex-direction:column;gap:14px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-radius:8px;">
+                                    <div>
+                                        <p style="font-size:13px;color:var(--white);margin-bottom:2px;">🎯 Free 1 Day Trial</p>
+                                        <p style="font-size:11px;color:var(--text-muted);">Explore the AI feature risk-free</p>
+                                    </div>
+                                    <span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--gold);background:var(--gold-dim);padding:4px 12px;border-radius:20px;">2 generations</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-radius:8px;border:1px solid rgba(201,168,76,0.2);">
+                                    <div>
+                                        <p style="font-size:13px;color:var(--white);margin-bottom:2px;">💎 Paid — $20/month</p>
+                                        <p style="font-size:11px;color:var(--text-muted);">~31 videos or ~125 images per month</p>
+                                    </div>
+                                    <span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--gold);background:var(--gold-dim);padding:4px 12px;border-radius:20px;">20 generations</span>
+                                </div>
+                            </div>
+                            <p style="font-size:11px;color:var(--text-muted);margin-top:14px;line-height:1.7;text-align:center;">1 video = 4 AI images rendered together &nbsp;|&nbsp; 1 image = 1 AI image<br>Limit resets on the 1st of every month</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="step-item reveal">
-        <div class="step-dot"></div>
-        <span class="step-num">03</span>
-        <div class="step-content">
-          <h3 class="step-title">Create Your Campaign</h3>
-          <p class="step-desc">Add your image or media, captions or links to a campaign. Choose which platforms to target and save it — ready to post whenever you are.</p>
+
+        <div class="how-section" id="how">
+            <div class="how-inner">
+                <p class="section-label reveal">The Process</p>
+                <h2 class="section-title reveal">Elegantly simple.<br><em>Powerfully effective.</em></h2>
+                <div class="steps-list">
+                    <div class="step-item reveal"><div class="step-dot"></div><span class="step-num">01</span><div class="step-content"><h3 class="step-title">Download &amp; Install</h3><p class="step-desc">Download the Social Advertiser desktop app for Windows. One-click installation — no technical knowledge required. Ready in under a minute.</p></div></div>
+                    <div class="step-item reveal"><div class="step-dot"></div><span class="step-num">02</span><div class="step-content"><h3 class="step-title">Connect Your Accounts</h3><p class="step-desc">Log into each of your social platforms once through the built-in browser. Your sessions are saved securely on your own machine — never on our servers.</p></div></div>
+                    <div class="step-item reveal"><div class="step-dot"></div><span class="step-num">03</span><div class="step-content"><h3 class="step-title">Create Your Campaign</h3><p class="step-desc">Add your image or video, captions or links to a campaign — or use AI Content Factory to generate everything automatically. Choose your platforms, set the schedule and save.</p></div></div>
+                    <div class="step-item reveal"><div class="step-dot"></div><span class="step-num">04</span><div class="step-content"><h3 class="step-title">Automate or Post Now</h3><p class="step-desc">Auto Pilot manages multiple scheduled campaigns across all platforms automatically. Solo Pilot instantly pushes a single campaign to every platform in one click.</p></div></div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="step-item reveal">
-        <div class="step-dot"></div>
-        <span class="step-num">04</span>
-        <div class="step-content">
-          <h3 class="step-title">Automate or Post Now</h3>
-          <p class="step-desc">Auto Pilot manages multiple scheduled campaigns across all platforms automatically. <br> Solo Pilot instantly pushes a single campaign to every platform in one click.</p>
+
+        <section class="pricing-section" id="pricing">
+            <p class="section-label reveal">Simple Pricing</p>
+            <h2 class="section-title reveal">One plan.<br><em>Everything</em> included.</h2>
+            <div class="pricing-card reveal">
+                <span class="pricing-badge">Full Access</span>
+                <div class="pricing-price"><sup>$</sup>20</div>
+                <p class="pricing-period">per month</p>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li>🤖 AI Content Factory — 20 generations/month (~31 videos or ~125 images)</li>
+                    <li>All 5 platforms — Facebook, X, Instagram, LinkedIn, Pinterest</li>
+                    <li>Multi Auto Pilot &amp; Solo Pilot modes</li>
+                    <li>Unlimited campaigns &amp; posts — 700+ daily</li>
+                    <li>Image &amp; video uploads</li>
+                    <li>Secure local credential storage</li>
+                    <li>Continuous silent updates</li>
+                    <li>Priority support</li>
+                </ul>
+                <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.0/SocialAdvertiser_Setup_v1.0.0.exe" class="btn-primary" style="width:100%;text-align:center;">Get Started — $20 / month</a>
+                <p class="pricing-note">No annual commitment. No hidden fees. Cancel whenever you wish.</p>
+                <div style="margin-top:20px;padding:14px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.3);border-radius:8px;text-align:center;">
+                    <p style="font-size:12px;color:var(--gold);">🎯 Not sure yet? <button onclick="showTrialModal()" style="background:none;border:none;color:var(--gold);text-decoration:underline;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;">Try free for 1 day</button> — no payment required</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="video-section" id="watch">
+            <div class="video-inner">
+                <p class="section-label reveal">Watch It In Action</p>
+                <h2 class="section-title reveal" style="margin-bottom:0;">See exactly how it works —<br><em>from download to first post.</em></h2>
+                <div class="video-wrapper reveal">
+                    <iframe src="https://www.youtube.com/embed/16RFKZJkzHU?rel=0&showinfo=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <p class="video-caption reveal">A complete walkthrough — from installation to your very first automated post across all 5 platforms.</p>
+            </div>
         </div>
-      </div>
+
+        <div class="contact-section" id="contact">
+            <div class="contact-inner">
+                <p class="section-label reveal">Get In Touch</p>
+                <h2 class="section-title reveal">Questions?<br><em>We're here.</em></h2>
+                <form class="contact-form reveal" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" id="cName" class="form-input" placeholder="John Smith" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" id="cEmail" class="form-input" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea id="cMessage" class="form-textarea" placeholder="Tell us how we can help you..." required></textarea>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn-primary" id="submitBtn">Send Message</button>
+                    </div>
+                    <p id="form-success" style="display:none;color:var(--gold);font-size:13px;letter-spacing:0.05em;margin-top:8px;">✓ Message sent. We'll be in touch shortly.</p>
+                    <p id="form-error" style="display:none;color:#e74c3c;font-size:13px;margin-top:8px;">✗ Failed to send. Please contact us on WhatsApp.</p>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-logo">Social Advertiser</div>
+            <div class="footer-links">
+                <a onclick="showPrivacy()">Privacy Policy</a>
+                <a href="#contact">Contact</a>
+                <a href="https://wa.me/923136015945" target="_blank">WhatsApp</a>
+            </div>
+            <p class="footer-copy">© 2025 Social Advertiser. All rights reserved.</p>
+        </footer>
+
+    </div><!-- end main-content -->
+
+    <!-- ═══ PRIVACY POLICY ═══ -->
+    <div id="privacy-content" style="display:none;">
+        <nav>
+            <div class="nav-logo">Social Advertiser</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showMain()">← Back to Home</a></li>
+            </ul>
+        </nav>
+        <div style="max-width:900px;margin:0 auto;padding:140px 60px 120px;">
+            <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">Legal</p>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,64px);font-weight:300;margin-bottom:16px;">Privacy Policy</h1>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:56px;font-style:italic;">Last updated: January 2025</p>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">1. Information We Collect</h2>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:16px;">Social Advertiser collects the following when you register or use our service:</p>
+            <ul style="padding-left:20px;margin-bottom:24px;">
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Username, email address, and encrypted password</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">License key generated upon registration</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Payment transaction IDs (not card numbers)</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Subscription status and AI usage count per month</li>
+            </ul>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">2. What We Do NOT Collect</h2>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:16px;">The following is <strong style="color:var(--white);">never stored on our servers:</strong></p>
+            <ul style="padding-left:20px;margin-bottom:24px;">
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Your social media account passwords or login credentials</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Your social media posts or campaign content</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Credit card or bank account numbers</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Browsing history or personal files from your computer</li>
+            </ul>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">Your social media login sessions are stored <strong style="color:var(--white);">only on your local computer</strong> — never uploaded to our servers.</p>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">3. How We Use Your Information</h2>
+            <ul style="padding-left:20px;margin-bottom:24px;">
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">To verify your license and provide access to the software</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">To manage your subscription and payment status</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">To send password reset OTP emails when requested</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">To track AI content generation usage within monthly limits</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">To respond to support inquiries</li>
+            </ul>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">4. Data Storage &amp; Security</h2>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">Your data is stored on a secure Google Cloud Platform server. Passwords are encrypted using industry-standard bcrypt hashing. Plain-text passwords are never stored.</p>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">5. Third-Party Services</h2>
+            <ul style="padding-left:20px;margin-bottom:24px;">
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">OpenAI (DALL-E 3 &amp; GPT-4o)</strong> — for AI content generation. Your prompts are sent to OpenAI. Their privacy policy applies.</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Mailjet</strong> — for sending OTP and notification emails</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Google Cloud Platform</strong> — for server hosting</li>
+            </ul>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">6. Payments</h2>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">Payments are processed manually. We only store the transaction ID you provide — never your card details, bank account, or wallet credentials. Payment methods include Payoneer, Binance USDT, and HBL Bank Transfer.</p>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">7. Data Retention</h2>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">We retain your account data as long as your account is active. You may request deletion of your account and all associated data by contacting us.</p>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">8. Your Rights</h2>
+            <ul style="padding-left:20px;margin-bottom:24px;">
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Right to access your personal data</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Right to request correction of inaccurate data</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Right to request deletion of your account</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;">Right to withdraw consent at any time</li>
+            </ul>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">9. Contact Us</h2>
+            <ul style="padding-left:20px;margin-bottom:24px;">
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Email:</strong> socialadvertiser01@gmail.com</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">WhatsApp:</strong> +92 313 6015945</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Website:</strong> socialadvertiser.github.io/AG/</li>
+            </ul>
+
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">10. Changes to This Policy</h2>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:40px;">We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Continued use of Social Advertiser after changes constitutes acceptance of the new policy.</p>
+
+            <div style="padding:24px;border:1px solid rgba(201,168,76,0.2);border-radius:8px;text-align:center;">
+                <p style="font-size:13px;color:var(--text-muted);">Last updated January 2025 &nbsp;—&nbsp; Social Advertiser &nbsp;—&nbsp; <a href="#" onclick="showMain()" style="color:var(--gold);">Return to Home</a></p>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-logo">Social Advertiser</div>
+            <div class="footer-links">
+                <a onclick="showPrivacy()">Privacy Policy</a>
+                <a onclick="showMain()">Home</a>
+            </div>
+            <p class="footer-copy">© 2025 Social Advertiser. All rights reserved.</p>
+        </footer>
     </div>
-  </div>
-</div>
 
-<section class="pricing-section" id="pricing">
-  <p class="section-label reveal">Simple Pricing</p>
-  <h2 class="section-title reveal">One plan.<br><em>Everything</em> included.</h2>
-  <div class="pricing-card reveal">
-    <span class="pricing-badge">Full Access</span>
-    <div class="pricing-price"><sup>$</sup>20</div>
-    <p class="pricing-period">per month</p>
-    <div class="pricing-divider"></div>
-    <ul class="pricing-features">
-      <li>All 5 platforms — Facebook, X, Instagram, LinkedIn, Pinterest</li>
-      <li>Multi Auto Pilot &amp; Solo Pilot modes</li>
-      <li>Unlimited campaigns &amp; posts</li>
-      <li>Image &amp; media uploads</li>
-      <li>Secure local credential storage</li>
-      <li>Continuous silent updates</li>
-      <li>Priority support</li>
-    </ul>
-    <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.0/SocialAdvertiser_Setup_v1.0.0.exe" class="btn-primary" style="width:100%; text-align:center;" download>Get Started — $20 / month</a>
-    <p class="pricing-note">No annual commitment. No hidden fees. Cancel whenever you wish.</p>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     VIDEO SECTION
-     Jab YouTube video ready ho:
-     1. Is section mein video-placeholder div HATAO
-     2. Neeche wala iframe UNCOMMENT karo
-     3. YOUR_VIDEO_ID ki jagah apna YouTube video ID daalo
-         Example: youtube.com/watch?v=dQw4w9WgXcQ
-                  ID = dQw4w9WgXcQ
-════════════════════════════════════════════════════ -->
-<div class="video-section" id="watch">
-  <div class="video-inner">
-    <p class="section-label reveal">Watch It In Action</p>
-    <h2 class="section-title reveal" style="margin-bottom:0;">
-      See exactly how it works —<br><em>from download to first post.</em>
-    </h2>
-    <div class="video-wrapper reveal">
-    <iframe
-        src="https://www.youtube.com/embed/16RFKZJkzHU?rel=0&showinfo=0"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-    </iframe>
-</div>
-    <p class="video-caption reveal">A complete walkthrough — from installation to your very first automated post across all 5 platforms.</p>
-  </div>
-</div>
-
-<div class="contact-section" id="contact">
-  <div class="contact-inner">
-    <p class="section-label reveal">Get In Touch</p>
-    <h2 class="section-title reveal">Questions?<br><em>We're here.</em></h2>
-    <form class="contact-form reveal" id="contactForm">
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">Your Name</label>
-            <input type="text" id="cName" class="form-input" placeholder="John Smith" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <input type="email" id="cEmail" class="form-input" placeholder="you@example.com" required>
+    <!-- ═══ FREE TRIAL MODAL ═══ -->
+    <div id="trialModal" class="modal-overlay">
+        <div class="modal-box">
+            <button onclick="closeTrialModal()" class="modal-close">✕</button>
+            <div style="font-size:40px;margin-bottom:12px;">🎯</div>
+            <h2 style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;">Free 1 Day Trial</h2>
+            <p style="color:var(--text-muted);font-size:13px;margin-bottom:8px;">Full access — no credit card required</p>
+            <p style="color:#666;font-size:11px;margin-bottom:24px;line-height:1.8;">✅ All 5 platforms &nbsp;·&nbsp; ✅ Solo &amp; Multi Pilot &nbsp;·&nbsp; ✅ 2 AI generations</p>
+            <input id="tName" type="text" placeholder="Your Name" class="modal-input">
+            <input id="tEmail" type="email" placeholder="Your Email" class="modal-input" style="margin-bottom:20px;">
+            <button id="trialBtn" onclick="activateTrial()" class="btn-primary" style="width:100%;padding:15px;font-size:14px;">Activate Free Trial</button>
+            <div id="trialResult" style="margin-top:16px;"></div>
         </div>
     </div>
-    <div class="form-group">
-        <label class="form-label">Message</label>
-        <textarea id="cMessage" class="form-textarea" placeholder="Tell us how we can help you..." required></textarea>
-    </div>
-    <div class="form-submit">
-        <button type="submit" class="btn-primary" id="submitBtn">Send Message</button>
-    </div>
-    <p id="form-success" style="display:none;color:var(--gold);font-size:13px;letter-spacing:0.05em;margin-top:8px;">✓ Message sent. We'll be in touch shortly.</p>
-    <p id="form-error" style="display:none;color:#e74c3c;font-size:13px;margin-top:8px;">✗ Failed to send. Please contact us on WhatsApp.</p>
-</form>
-  </div>
-</div>
 
-<footer id="download">
-  <div class="footer-logo">Social Advertiser</div>
-  <p class="footer-copy">© 2025 Social Advertiser. All rights reserved.</p>
-</footer>
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
 
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+        function showPrivacy() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('privacy-content').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        function showMain() {
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('privacy-content').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+        function showTrialModal() {
+            document.getElementById('trialModal').classList.add('active');
+        }
+        function closeTrialModal() {
+            document.getElementById('trialModal').classList.remove('active');
+        }
 
-  document.getElementById('contactForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const name = document.getElementById('cName').value.trim();
-    const email = document.getElementById('cEmail').value.trim();
-    const message = document.getElementById('cMessage').value.trim();
-    const btn = document.getElementById('submitBtn');
-    const success = document.getElementById('form-success');
-    const errBox = document.getElementById('form-error');
+        async function activateTrial() {
+            const name   = document.getElementById('tName').value.trim();
+            const email  = document.getElementById('tEmail').value.trim();
+            const result = document.getElementById('trialResult');
+            const btn    = document.getElementById('trialBtn');
+            if (!name || !email) { result.innerHTML = '<p style="color:#ef4444;font-size:13px;">Please fill both fields!</p>'; return; }
+            btn.textContent = 'Activating...';
+            btn.disabled    = true;
+            result.innerHTML = '';
+            try {
+                const res  = await fetch('http://35.185.177.210:5000/api/start-trial', {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify({name, email})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    result.innerHTML = `
+                    <div style="background:#0a1a0a;border:1px solid #10b981;border-radius:10px;padding:20px;text-align:left;">
+                        <p style="color:#10b981;font-weight:bold;margin-bottom:12px;">✅ Trial Activated — 1 Day Full Access!</p>
+                        <p style="color:#888;font-size:12px;margin-bottom:6px;">Your License Key:</p>
+                        <div style="background:#111;border:1px solid var(--gold);border-radius:6px;padding:10px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                            <code id="lkey" style="color:var(--gold);font-size:12px;word-break:break-all;">${data.license_key}</code>
+                            <button onclick="copyKey()" style="margin-left:8px;padding:5px 10px;background:var(--gold);border:none;border-radius:4px;color:#000;font-size:11px;cursor:pointer;white-space:nowrap;">📋 Copy</button>
+                        </div>
+                        <p style="color:#666;font-size:11px;margin-bottom:14px;">⏱️ Valid until: <strong style="color:#fff;">${data.expires_at}</strong></p>
+                        <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.0/SocialAdvertiser_Setup_v1.0.0.exe" style="display:block;width:100%;padding:12px;background:var(--gold);color:#000;text-align:center;border-radius:8px;font-weight:bold;font-size:14px;text-decoration:none;box-sizing:border-box;">⬇️ Download & Install Now</a>
+                        <p style="color:#555;font-size:11px;margin-top:10px;text-align:center;">Install → Open → Enter License Key → Start!</p>
+                    </div>`;
+                } else {
+                    result.innerHTML = `<p style="color:#ef4444;font-size:13px;">❌ ${data.message}</p>`;
+                    btn.textContent = 'Activate Free Trial';
+                    btn.disabled = false;
+                }
+            } catch(err) {
+                result.innerHTML = `<p style="color:#ef4444;font-size:13px;">❌ Connection error. Please try WhatsApp.</p>`;
+                btn.textContent = 'Activate Free Trial';
+                btn.disabled = false;
+            }
+        }
+        function copyKey() {
+            const key = document.getElementById('lkey').textContent.trim();
+            navigator.clipboard.writeText(key).then(() => alert('License key copied!'));
+        }
 
-    if (!name || !email || !message) { alert('Please fill all fields!'); return; }
-
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-    success.style.display = 'none';
-    errBox.style.display = 'none';
-
-    try {
-        const res = await fetch('http://api-server-:5000/api/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, message })
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name=document.getElementById('cName').value.trim();
+            const email=document.getElementById('cEmail').value.trim();
+            const message=document.getElementById('cMessage').value.trim();
+            const btn=document.getElementById('submitBtn');
+            const success=document.getElementById('form-success');
+            const errBox=document.getElementById('form-error');
+            if(!name||!email||!message){alert('Please fill all fields!');return;}
+            btn.textContent='Sending...'; btn.disabled=true;
+            success.style.display='none'; errBox.style.display='none';
+            try {
+                const res=await fetch('http://35.185.177.210:5000/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,message})});
+                const data=await res.json();
+                if(data.success){success.style.display='block';this.reset();}
+                else{errBox.style.display='block';}
+            } catch(err){errBox.style.display='block';}
+            finally{btn.textContent='Send Message';btn.disabled=false;}
         });
-        const data = await res.json();
-        if (data.success) { success.style.display = 'block'; this.reset(); }
-        else { errBox.style.display = 'block'; }
-    } catch (err) {
-        errBox.style.display = 'block';
-    } finally {
-        btn.textContent = 'Send Message';
-        btn.disabled = false;
-    }
-});
-</script>
+    </script>
 </body>
 </html>
