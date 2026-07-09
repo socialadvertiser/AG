@@ -299,7 +299,7 @@
                                 <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-radius:8px;border:1px solid rgba(201,168,76,0.2);">
                                     <div>
                                         <p style="font-size:13px;color:var(--white);margin-bottom:2px;">💎 Paid — $20/month</p>
-                                        <p style="font-size:11px;color:var(--text-muted);">~Unlimited videos &amp; images per month</p>
+                                        <p style="font-size:11px;color:var(--text-muted);">~ 100 videos &amp; 500 images per month</p>
                                     </div>
                                     <span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--gold);background:var(--gold-dim);padding:4px 12px;border-radius:20px;">20 generations</span>
                                 </div>
@@ -334,7 +334,8 @@
                 <p class="pricing-period">per month</p>
                 <div class="pricing-divider"></div>
                 <ul class="pricing-features">
-                    <li>🤖 AI Content Factory — Unlimited videos &amp; images</li>
+                    <li>🤖 AI Content Factory — 100 Videos + 500 Images/month</li>
+                    <li>1-Day Free Trial on registration</li>
                     <li>All 5 platforms — Facebook, X, Instagram, LinkedIn, Pinterest</li>
                     <li>Multi Auto Pilot &amp; Solo Pilot modes</li>
                     <li>Unlimited campaigns &amp; posts — 700+ daily</li>
@@ -498,7 +499,7 @@
             <div style="font-size:40px;margin-bottom:12px;">🎯</div>
             <h2 style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;">Free 1 Day Trial</h2>
             <p style="color:var(--text-muted);font-size:13px;margin-bottom:8px;">Full access — no credit card required</p>
-            <p style="color:#666;font-size:11px;margin-bottom:24px;line-height:1.8;">✅ All 5 platforms &nbsp;·&nbsp; ✅ Solo &amp; Multi Pilot &nbsp;·&nbsp; ✅ 2 AI generations</p>
+            <p style="color:#666;font-size:11px;margin-bottom:24px;line-height:1.8;">✅ All 5 platforms &nbsp;·&nbsp; ✅ Solo &amp; Multi Pilot &nbsp;·&nbsp; ✅ 5 Image and 2 Vidio AI generations</p>
             <input id="tName" type="text" placeholder="Your Name" class="modal-input">
             <input id="tEmail" type="email" placeholder="Your Email" class="modal-input" style="margin-bottom:20px;">
             <button id="trialBtn" onclick="activateTrial()" class="btn-primary" style="width:100%;padding:15px;font-size:14px;">Activate Free Trial</button>
@@ -545,7 +546,7 @@
             btn.disabled    = true;
             result.innerHTML = '';
             try {
-                const res  = await fetch('http://35.185.177.210:5000/api/start-trial', {
+                const res  = await fetch('http://161.97.150.54:5000/api/start-trial', {
                     method:'POST', headers:{'Content-Type':'application/json'},
                     body: JSON.stringify({name, email})
                 });
