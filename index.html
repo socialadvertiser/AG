@@ -22,12 +22,12 @@
         .nav-links{display:flex;gap:40px;list-style:none;}
         .nav-links a{color:var(--text-muted);text-decoration:none;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.3s;}
         .nav-links a:hover{color:var(--white);}
-        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:#ffffff;}
         .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none;}
         .hero-line{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 48px;animation:lineGrow 1.2s ease forwards;transform-origin:top;}
         @keyframes lineGrow{from{transform:scaleY(0);opacity:0;}to{transform:scaleY(1);opacity:1;}}
         .hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards;}
-        .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(64px,10vw,120px);font-weight:300;line-height:0.95;letter-spacing:-0.02em;margin-bottom:8px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
+        .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(64px,10vw,120px);font-weight:300;line-height:0.95;letter-spacing:-0.02em;margin-bottom:8px;opacity:0;animation:fadeUp 0.8s ease 0.5s #003049;}
         .hero-title em{font-style:italic;color:var(--gold-light);}
         .hero-title-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,56px);font-weight:300;font-style:italic;color:var(--text-muted);letter-spacing:0.05em;margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
         .hero-desc{font-size:16px;line-height:1.8;color:var(--text-muted);max-width:520px;margin:0 auto 56px;opacity:0;animation:fadeUp 0.8s ease 0.9s forwards;}
@@ -141,6 +141,7 @@
         </nav>
 
         <section class="hero">
+            <div class="hero-pattern" id="heroPattern"></div>
             <div class="hero-glow"></div>
             <div class="hero-line"></div>
             <p class="hero-eyebrow">Introducing Social Advertiser</p>
@@ -665,6 +666,16 @@
             } catch(err){errBox.style.display='block';}
             finally{btn.textContent='Send Message';btn.disabled=false;}
         });
+        (function(){
+          var icons=['f','X','ig','in','P'];
+          var pat=document.getElementById('heroPattern');
+          if(!pat) return;
+          for(var i=0;i<196;i++){
+            var s=document.createElement('span');
+            s.textContent=icons[i%icons.length];
+            pat.appendChild(s);
+          }
+        })();
     </script>
 </body>
 </html>
