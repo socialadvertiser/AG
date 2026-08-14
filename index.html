@@ -692,12 +692,27 @@
         .pricing-features li {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
+            gap: 10px;
             font-size: 14px;
-            color: #003049;
-            line-height: 1.6;
+            color: #002040;
+            line-height: 1.5;
             text-align: left;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,48,73,0.08);
         }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+       .pricing-features li::before {
+           content: '✓';
+           color: var(--gold);
+           font-weight: 700;
+           font-size: 14px;
+           flex-shrink: 0;
+           margin-top: 1px;
+       }
 
         .pricing-features li {
             display: flex;
@@ -1173,7 +1188,7 @@
                                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,48,73,0.06); border-radius: 8px;">
                                     <div>
                                         <p style="font-size:13px;color:var(--white);margin-bottom:2px;">🎯 Free 1 Day Trial</p>
-                                        <p style="font-size:11px;color:var(--text-muted);">Explore the AI feature risk-free</p>
+                                        <p style="font-size:11px;color:var(--text-muted);">2 AI Videos + 5 AI Images</p>
                                     </div>
                                     <span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--gold);background:var(--gold-dim);padding:4px 12px;border-radius:20px;">7 generations</span>
                                 </div>
@@ -1331,12 +1346,12 @@
             <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">5. Third-Party Services</h2>
             <ul style="padding-left:20px;margin-bottom:24px;">
                 <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">OpenAI (DALL-E 3 &amp; GPT-4o)</strong> — for AI content generation. Your prompts are sent to OpenAI. Their privacy policy applies.</li>
-                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Mailjet</strong> — for sending OTP and notification emails</li>
-                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Google Cloud Platform</strong> — for server hosting</li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);"></li>
+                <li style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:8px;"><strong style="color:var(--white);">Contabo</strong> — for server hosting</li>
             </ul>
 
             <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">6. Payments</h2>
-            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">Payments are processed manually. We only store the transaction ID you provide — never your card details, bank account, or wallet credentials. Payment methods include Payoneer, Binance USDT, and HBL Bank Transfer.</p>
+            <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">Payments are processed manually. We only store the transaction ID you provide — never your card details, bank account, or wallet credentials. Payment methods include Credit/Debit Card via Gumroad, Binance USDT (TRC20), and Pakistani Apps (NayaPay, SadaPay).</p>
 
             <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--gold);margin:40px 0 16px;">7. Data Retention</h2>
             <p style="font-size:14px;line-height:1.9;color:var(--text-muted);margin-bottom:24px;">We retain your account data as long as your account is active. You may request deletion of your account and all associated data by contacting us.</p>
@@ -1437,7 +1452,7 @@
             <div style="font-size:40px;margin-bottom:12px;">🎯</div>
             <h2 style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;">Free 1 Day Trial</h2>
             <p style="color:var(--text-muted);font-size:13px;margin-bottom:8px;">Full access — no credit card required</p>
-            <p style="color:#666;font-size:11px;margin-bottom:24px;line-height:1.8;">✅ All 5 platforms &nbsp;·&nbsp; ✅ Solo &amp; Multi Pilot &nbsp;·&nbsp; ✅ 5 Image and 2 Vidio AI generations</p>
+            <p style="color:#666;font-size:11px;margin-bottom:24px;line-height:1.8;">✅ All 5 platforms &nbsp;·&nbsp; ✅ Solo &amp; Multi Pilot &nbsp;·&nbsp; ✅ 2 AI Videos + 5 AI Images</p>
             <input id="tName" type="text" placeholder="Your Name" class="modal-input">
             <input id="tEmail" type="email" placeholder="Your Email" class="modal-input" style="margin-bottom:20px;">
             <button id="trialBtn" onclick="activateTrial()" class="btn-primary" style="width:100%;padding:15px;font-size:14px;">Activate Free Trial</button>
@@ -1507,7 +1522,7 @@
                                 <button onclick="copyKey()" style="margin-left:8px;padding:5px 10px;background:var(--gold);border:none;border-radius:4px;color:#000;font-size:11px;cursor:pointer;white-space:nowrap;">📋 Copy</button>
                             </div>
                             <p style="color:#666;font-size:11px;margin-bottom:14px;">⏱️ Valid until: <strong style="color:#fff;">${data.expires_at}</strong></p>
-                            <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.0/SocialAdvertiser_Setup_v1.0.0.exe" style="display:block;width:100%;padding:12px;background:var(--gold);color:#000;text-align:center;border-radius:8px;font-weight:bold;font-size:14px;text-decoration:none;box-sizing:border-box;">⬇️ Download & Install Now</a>
+                            <a href="https://github.com/socialadvertiser/AG/releases/download/v1.0.1/SocialAdvertiser_Setup_v1.0.1.exe" style="display:block;width:100%;padding:12px;background:var(--gold);color:#000;text-align:center;border-radius:8px;font-weight:bold;font-size:14px;text-decoration:none;box-sizing:border-box;">⬇️ Download & Install Now</a>
                             <p style="color:#555;font-size:11px;margin-top:10px;text-align:center;">Install → Open → Enter License Key → Start!</p>
                         </div>`;
                 } else {
@@ -1538,7 +1553,7 @@
             btn.textContent = 'Sending...'; btn.disabled = true;
             success.style.display = 'none'; errBox.style.display = 'none';
             try {
-                const res = await fetch('http://35.185.177.210:5000/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, message }) });
+                const res = await fetch('http://161.97.150.54:5000/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, message }) });
                 const data = await res.json();
                 if (data.success) { success.style.display = 'block'; this.reset(); }
                 else { errBox.style.display = 'block'; }
